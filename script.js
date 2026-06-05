@@ -48,9 +48,6 @@ var totalGrassTouched = Number(localStorage.getItem('totalGrassTouched')) || 0;
 document.getElementById('rabbitTxt').innerText = "Cost: " + formatNumber(rabbitCost);
 document.getElementById('sheepTxt').innerText = "Cost: " + formatNumber(sheepCost);
 document.getElementById('petrolMowerTxt').innerText = "Cost: " + formatNumber(petrolMowerCost);
-document.getElementById('rabbit-desc').innerText = "(+" + formatNumber(rabbits * 1 * rabbitMultiplier) + " per second)";
-document.getElementById('sheep-desc').innerText = "(+" + formatNumber(sheep * 5 * sheepMultiplier) + " per second)";
-document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(petrolMowers * 50 * mowerMultiplier) + " per second)";
 document.getElementById('shearsTxt').innerText = "Cost: " + formatNumber(shearsCost);
 document.getElementById('scytheTxt').innerText = "Cost: " + formatNumber(scytheCost);
 document.getElementById('pushMowerTxt').innerText = "Cost: " + formatNumber(pushMowerCost);
@@ -59,6 +56,30 @@ document.getElementById("total-grass").innerText = "Total Grass Touched: " + for
 document.getElementById('per-click').innerText = "Per Click: " + formatNumber(clickPower);
 document.getElementById('per-second').innerText = "Per Second: " + formatNumber(income);
 
+// checks if player has upgraded their passive income and displays it
+if (rabbitMultiplier === 0) {
+    document.getElementById('rabbit-desc').innerText = "(+" + formatNumber(1) + " per second)";
+} else if (rabbits == 0) {
+    document.getElementById('rabbit-desc').innerText = "(+ 1 per second)";
+} else {
+    document.getElementById('rabbit-desc').innerText = "(+ " + formatNumber(1*rabbitMultiplier) + " per second)";
+}
+// same for sheep
+if (sheepMultiplier === 0) {
+    document.getElementById('sheep-desc').innerText = "(+" + formatNumber(5) + " per second)";
+} else if (sheep == 0) {
+    document.getElementById('sheep-desc').innerText = "(+ 5 per second)";
+} else {
+    document.getElementById('sheep-desc').innerText = "(+ " + formatNumber(5*sheepMultiplier) + " per second)";
+}
+// same for mowers
+if (mowerMultiplier === 0) {
+    document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(50) + " per second)";
+} else if (petrolMowers == 0) {
+    document.getElementById('petrolMower-desc').innerText = "(+ 50 per second)";
+} else {
+    document.getElementById('petrolMower-desc').innerText = "(+ " + formatNumber(50*mowerMultiplier) + " per second)";
+}
     // Add this helper function to handle mathematical updates dynamically
 function recalculatePassiveIncome() {
     income = (rabbits * 1 * rabbitMultiplier) + 
@@ -226,8 +247,8 @@ function buyShears() {
         localStorage.setItem('shearsCost', shearsCost)
         const shearsText = document.getElementById('shearsTxt');
         shearsText.innerText = `Cost: ` + formatNumber(shearsCost);
-        }
-    if (grassTouched >= shearsCost) {
+        } 
+        if (grassTouched >= shearsCost) {
         grassTouched -= shearsCost; // Spend the grass
         clickPower += 1;      // Increase click power
         localStorage.setItem("clickingPower", clickPower)
@@ -293,8 +314,7 @@ function buyPushmower() {
 function buyRabbit() {
     if (grassTouched >= rabbitCost && rabbitMultiplier > 0) {
         showAchievement("Rodent Receptionist", `You bought a rabbit! It touches ${1 * rabbitMultiplier} grass per second.`)
-    }
-    else if (grassTouched >= rabbitCost && rabbitMultiplier == 0) {
+    } else if (grassTouched >= rabbitCost && rabbitMultiplier == 0) {
         showAchievement("Hired Help", "You bought a rabbit! It touches 1 grass per second.")
     }
     if(grassTouched >= rabbitCost && rabbits > 3) {
@@ -303,6 +323,21 @@ function buyRabbit() {
 
         //log the new phase 
         console.log("increased rabbit cost due to having more than 3 rabbits")
+        //log the new cost and rabbit count       
+        console.log(`New rabbit cost: ${rabbitCost}, Rabbits owned: ${formatNumber(rabbits)}`);
+        //save to memory to prevent cost reset on refresh
+        localStorage.setItem('rabbitCost', rabbitCost)
+        localStorage.setItem('income', income)
+        //update text
+        document.getElementById('per-second').innerText = "Per Second: " + formatNumber(income);
+        const rabbitText = document.getElementById('rabbitTxt');
+        rabbitText.innerText = `Cost: ` + formatNumber(rabbitCost);
+        } else if(rabbitMultiplier > rabbitCost && grassTouched > rabbitCost) {
+        rabbitCost += (rabbits * 5 * rabbitMultiplier * 10);
+        recalculatePassiveIncome();
+
+        //log the new phase 
+        console.log("increased rabbit cost due to price imabalance")
         //log the new cost and rabbit count       
         console.log(`New rabbit cost: ${rabbitCost}, Rabbits owned: ${formatNumber(rabbits)}`);
         //save to memory to prevent cost reset on refresh
@@ -379,7 +414,21 @@ function buySheep() {
     }
 }
 function buyPetrolMower() {
-    if(grassTouched >= petrolMowerCost && petrolMowers > 10) {
+        if(mowerMultiplier * 250 > petrolMowerCost && grassTouched > petrolMowerCost) {
+            console.log("price imbalance detected, increasing petrol mower cost")
+        petrolMowerCost += (petrolMowers * 50 * mowerMultiplier * 10);
+        recalculatePassiveIncome();
+
+        //log the new phase 
+        console.log("increased mower cost due to price imabalance")
+        //log the new cost and rabbit count       
+        console.log(`New mower cost: ${petrolMowerCost}, Petrol mowers owned: ${formatNumber(petrolMowers)}`);
+        //save to memory to prevent cost reset on refresh
+        localStorage.setItem('petrolMowerCost', petrolMowerCost)
+        //update the cost text
+        const petrolMowerText = document.getElementById('petrolMowerTxt');
+        petrolMowerText.innerText = `Cost: ` + formatNumber(petrolMowerCost);
+        } else if(grassTouched >= petrolMowerCost && petrolMowers > 10) {
         petrolMowerCost += petrolMowers * 50;
         recalculatePassiveIncome();
         localStorage.setItem('income', income)
@@ -392,11 +441,10 @@ function buyPetrolMower() {
         //update the cost text
         const petrolMowerText = document.getElementById('petrolMowerTxt');
         petrolMowerText.innerText = `Cost: ` + formatNumber(petrolMowerCost);
-        }
     if (grassTouched >= petrolMowerCost) {
         grassTouched -= petrolMowerCost;
         petrolMowers++; 
-        document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(petrolMowers * 50 * mowerMultiplier) + " per second)";
+        document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(50 * mowerMultiplier) + " per second)";
         localStorage.setItem("petrolMowers", petrolMowers);
         document.getElementById('counter').innerText = "Grass Touched: " + formatNumber(grassTouched);
         showAchievement("You automated the one thing that shouldn't be automated", `You bought a petrol mower! It touches ${formatNumber(50 * mowerMultiplier)} grass per second.`);
@@ -407,6 +455,7 @@ function buyPetrolMower() {
                 showError("Not enough grass!", "Touch some more blud");
         errorAudio.play();
     }
+}
 }
 //toast notifications      
 //achievmements      
@@ -469,7 +518,6 @@ function showError(title, desc) {
         localStorage.setItem("score", grassTouched);
             document.getElementById("total-grass").innerText = "Total Grass Touched: " + formatNumber(totalGrassTouched);
                 localStorage.setItem("totalGrassTouched", totalGrassTouched)
-                console.log(`${formatNumber(totalGrassTouched)}`);
                 //achievment if statements
                 checkAchievements()
     }

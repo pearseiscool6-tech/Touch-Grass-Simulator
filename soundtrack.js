@@ -21,7 +21,7 @@ function playRandomSong() {
     
     // Create and configure the audio object
     currentAudio = new Audio(playlist[currentTrackIndex]);
-    currentAudio.volume = 0.5; // Optional: Adjust volume
+    currentAudio.volume = 0.1; // Optional: Adjust volume
 
     // CRITICAL: Listen for when the song finishes, then play the next
     currentAudio.addEventListener('ended', () => {
@@ -34,10 +34,13 @@ function playRandomSong() {
     });
 }
 
-// 7. Start the system (Call this on a game start button click)
-function startGameMusic() {
+//start the soundtrack system on first click
+function handleFirstClick() {
+if (!sessionStorage.getItem('hasClickedTab')) {
+    console.log("Starting soundtrack system...");
+    sessionStorage.setItem('hasClickedTab', 'true');
     playRandomSong();
+} else {
+    console.log("Soundtrack system already started.");  
 }
-
-//start the soundtrack system 
-playRandomSong();
+}
