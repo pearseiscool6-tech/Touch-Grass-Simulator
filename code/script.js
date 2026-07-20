@@ -36,9 +36,9 @@ var rabbits = Number(localStorage.getItem('rabbits')) || 0;
 var sheep = Number(localStorage.getItem('sheep')) || 0;
 var petrolMowers = Number(localStorage.getItem('petrolMowers')) || 0;
 // get sounds and images for use in the game
-const clickAudio = new Audio('click.mp3');
-const achievementAudio = new Audio('notify.mp3');
-const errorAudio = new Audio('error.mp3');
+const clickAudio = new Audio('assets/click.mp3');
+const achievementAudio = new Audio('assets/notify.mp3');
+const errorAudio = new Audio('assets/error.mp3');
 const img = document.getElementById('grass-img');
 var income = (rabbits * 1 * rabbitMultiplier) + 
                  (sheep * 5 * sheepMultiplier) + 

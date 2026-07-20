@@ -1,7 +1,7 @@
 //Define adventuring song and other tracks in the playlist
 const playlist = [
-    'adventuring_song.mp3.ogg',
-    'song1.mp3'
+    'assets/adventuring_song.mp3.ogg',
+    'assets/song1.mp3'
 ];
 
 let currentAudio = null;
