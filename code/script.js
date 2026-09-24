@@ -440,8 +440,8 @@ function buyPetrolMower() {
     }
 }
 }
-//toast notifications      
-//achievmements      
+//====TOAST NOTIFICATIONS====
+//ACHIEVEMENTS      
 function showAchievement(title, desc) {
     const popup = document.getElementById('achievement-popup');
     const titleEl = document.getElementById('achievement-title');
@@ -459,7 +459,7 @@ function showAchievement(title, desc) {
         popup.classList.remove('show');
     }, 4000);
 }
-//errors
+//ERRORS
 function showError(title, desc) {
     const popup = document.getElementById('error-popup');
     const titleEl = document.getElementById('error-title');
@@ -478,7 +478,7 @@ function showError(title, desc) {
     }, 3000);
 }
 
-//commands
+//COMMANDS
     window.setGrass = function(newGrass) {
     grassTouched = parseInt(newGrass);
     console.log(`%c Grass touched manually set to: ${grassTouched}`,);
