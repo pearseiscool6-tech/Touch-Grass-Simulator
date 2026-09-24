@@ -312,63 +312,42 @@ function buyPushmower() {
     }
 }
 function buyRabbit() {
-    if (grassTouched >= rabbitCost && rabbitMultiplier > 0) {
-        showAchievement("Rodent Receptionist", `You bought a rabbit! It touches ${1 * rabbitMultiplier} grass per second.`)
-    } else if (grassTouched >= rabbitCost && rabbitMultiplier == 0) {
-        showAchievement("Hired Help", "You bought a rabbit! It touches 1 grass per second.")
-    }
-    if(grassTouched >= rabbitCost && rabbits > 3) {
-        rabbitCost += (rabbits * 5 * rabbitMultiplier);
+        if(grassTouched >= rabbitCost && rabbits > 5) {
+        rabbitCost += rabbits * rabbitMultiplier;
         recalculatePassiveIncome();
-
+        localStorage.setItem('income', income)
         //log the new phase 
-        console.log("increased rabbit cost due to having more than 3 rabbits")
+        console.log("increased rabbit cost due to having more than 5 rabbits")
         //log the new cost and rabbit count       
         console.log(`New rabbit cost: ${rabbitCost}, Rabbits owned: ${formatNumber(rabbits)}`);
         //save to memory to prevent cost reset on refresh
         localStorage.setItem('rabbitCost', rabbitCost)
-        localStorage.setItem('income', income)
-        //update text
-        document.getElementById('per-second').innerText = "Per Second: " + formatNumber(income);
+        //update the cost text
         const rabbitText = document.getElementById('rabbitTxt');
         rabbitText.innerText = `Cost: ` + formatNumber(rabbitCost);
-        } else if(rabbitMultiplier > rabbitCost && grassTouched > rabbitCost) {
-        rabbitCost += (rabbits * 5 * rabbitMultiplier * 10);
-        recalculatePassiveIncome();
-
-        //log the new phase 
-        console.log("increased rabbit cost due to price imabalance")
-        //log the new cost and rabbit count       
-        console.log(`New rabbit cost: ${rabbitCost}, Rabbits owned: ${formatNumber(rabbits)}`);
-        //save to memory to prevent cost reset on refresh
-        localStorage.setItem('rabbitCost', rabbitCost)
-        localStorage.setItem('income', income)
-        //update text
-        document.getElementById('per-second').innerText = "Per Second: " + formatNumber(income);
-        const rabbitText = document.getElementById('rabbitTxt');
-        rabbitText.innerText = `Cost: ` + formatNumber(rabbitCost);
-        }
-    if(grassTouched >= rabbitCost && rabbits > 50) {
-        rabbitCost += rabbits * 50;
-        localStorage.setItem('rabbitCost', rabbitCost)
-        localStorage.setItem('income', income)
-        const rabbitText = document.getElementById('rabbitTxt');
-        rabbitText.innerText = `Cost: ` + formatNumber(rabbitCost)
         }
     if (grassTouched >= rabbitCost) {
         grassTouched -= rabbitCost;
         rabbits++; 
-        // Save the new rabbit count
+        
+        // Save the new sheep count
         localStorage.setItem("rabbits", rabbits);
+
+        // Increase income
+        recalculatePassiveIncome();
+        localStorage.setItem('income', income)
         
         // Update display
-        showAchievement("Bunny Business", `You bought a rabbit! It touches ${formatNumber(1 * rabbitMultiplier)} grass per second.`);
-        document.getElementById('rabbit-desc').innerText = "(+" + formatNumber(rabbits * rabbitMultiplier) + " per second)";
+        document.getElementById('rabbit-desc').innerText = "(+" + formatNumber(1 * rabbitMultiplier) + " per second)";
         document.getElementById('counter').innerText = "Grass Touched: " + formatNumber(grassTouched);
         clickAudio.play(); 
         document.getElementById("per-second").innerText = "Per Second: " + formatNumber(income);
         document.getElementById('per-click').innerText = "Per Click: " + formatNumber(clickPower);
-    } else {
+    } 
+    if (grassTouched >= rabbitCost && rabbitMultiplier > 0) {
+        showAchievement("Rodent Receptionist", `You bought a rabbit! It touches 1 grass per second.`)
+    }
+    else {
                 showError("Not enough grass!", "Touch some more blud");
         errorAudio.play();
     }
@@ -394,6 +373,10 @@ function buySheep() {
         
         // Save the new sheep count
         localStorage.setItem("sheep", sheep);
+
+        // Increase income
+        recalculatePassiveIncome();
+        localStorage.setItem('income', income)
         
         // Update display
         document.getElementById('sheep-desc').innerText = "(+" + formatNumber(5 * sheepMultiplier) + " per second)";
