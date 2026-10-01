@@ -364,8 +364,8 @@ function buySheep() {
         //save to memory to prevent cost reset on refresh
         localStorage.setItem('sheepCost', sheepCost)
         //update the cost text
-        const sheepText = document.getElementById('sheepTxt');
-        sheepText.innerText = `Cost: ` + formatNumber(sheepCost);
+        const sheepTxt = document.getElementById('sheepTxt');
+        sheepTxt.innerText = `Cost: ` + formatNumber(sheepCost);
         }
     if (grassTouched >= sheepCost) {
         grassTouched -= sheepCost;
@@ -397,48 +397,54 @@ function buySheep() {
     }
 }
 function buyPetrolMower() {
-        if(mowerMultiplier * 250 > petrolMowerCost && grassTouched > petrolMowerCost) {
-            console.log("price imbalance detected, increasing petrol mower cost")
-        petrolMowerCost += (petrolMowers * 50 * mowerMultiplier * 10);
-        recalculatePassiveIncome();
-
-        //log the new phase 
-        console.log("increased mower cost due to price imabalance")
-        //log the new cost and rabbit count       
-        console.log(`New mower cost: ${petrolMowerCost}, Petrol mowers owned: ${formatNumber(petrolMowers)}`);
-        //save to memory to prevent cost reset on refresh
-        localStorage.setItem('petrolMowerCost', petrolMowerCost)
-        //update the cost text
-        const petrolMowerText = document.getElementById('petrolMowerTxt');
-        petrolMowerText.innerText = `Cost: ` + formatNumber(petrolMowerCost);
-        } else if(grassTouched >= petrolMowerCost && petrolMowers > 10) {
-        petrolMowerCost += petrolMowers * 50;
+        if(grassTouched >= petrolMowerCost && petrolMowers > 5) {
+        petrolMowerCost += petrolMowers * 50 * mowerMultiplier;
         recalculatePassiveIncome();
         localStorage.setItem('income', income)
         //log the new phase 
-        console.log("increased petrol mower cost due to having more than 10 petrol mowers")
-        //log the new cost and petrol mower count       
-        console.log(`New petrol mower cost: ${petrolMowerCost}, Petrol mowers owned: ${formatNumber(petrolMowers)}`);
+        console.log("increased mowers cost due to having more than 5 mowers")
+        //log the new cost and sheep count       
+        console.log(`New mower cost: ${petrolMowerCost}, Mowers owned: ${formatNumber(petrolMowers)}`);
         //save to memory to prevent cost reset on refresh
         localStorage.setItem('petrolMowerCost', petrolMowerCost)
         //update the cost text
-        const petrolMowerText = document.getElementById('petrolMowerTxt');
-        petrolMowerText.innerText = `Cost: ` + formatNumber(petrolMowerCost);
+        const mowerTxt = document.getElementById('petrolMowerTxt');
+        mowerTxt.innerText = `Cost: ` + formatNumber(petrolMowerCost);
+        }
+    //Buy the mower, show it, and update the consequences of the purchase
     if (grassTouched >= petrolMowerCost) {
         grassTouched -= petrolMowerCost;
         petrolMowers++; 
-        document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(50 * mowerMultiplier) + " per second)";
+        
+        // Save the new sheep count
         localStorage.setItem("petrolMowers", petrolMowers);
+
+        // Increase income
+        recalculatePassiveIncome();
+        localStorage.setItem('income', income)
+        
+        // Update display
+        // Update how much the mower produces
+        document.getElementById('petrolMower-desc').innerText = "(+" + formatNumber(50 * mowerMultiplier) + " per second)";
+        //Update grass touched
         document.getElementById('counter').innerText = "Grass Touched: " + formatNumber(grassTouched);
-        showAchievement("You automated the one thing that shouldn't be automated", `You bought a petrol mower! It touches ${formatNumber(50 * mowerMultiplier)} grass per second.`);
+        //make the sound
         clickAudio.play(); 
+        //update income
         document.getElementById("per-second").innerText = "Per Second: " + formatNumber(income);
+        //js for good measure
         document.getElementById('per-click').innerText = "Per Click: " + formatNumber(clickPower);
-    } else {
+    } 
+    if (grassTouched >= petrolMowerCost && mowerMultiplier > 0) {
+        showAchievement("Fossil Fuel Freak", `You bought a Petrol-Powered Lawn Mower! It touches 50 grass per second.`)
+    }
+    else if (grassTouched >= petrolMowerCost && mowerMultiplier < 0) {
+        showAchievement("Mow-It-All", "You bought another Lawn Mower! It touches" + 5 * mowerMultiplier + "grass per second.")
+    }
+    else {
                 showError("Not enough grass!", "Touch some more blud");
         errorAudio.play();
     }
-}
 }
 //====TOAST NOTIFICATIONS====
 //ACHIEVEMENTS      
