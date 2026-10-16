@@ -38,18 +38,6 @@ body {
     margin-bottom: 20px;
     color: #333;
 }
-    #buuton { 
-    transform: scale(1.2);
-    padding: 10px;
-    background-color: #2196F3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 10px;
-            }
     #achievement-popup {
     position: fixed;
     top: 80px;
@@ -241,16 +229,6 @@ body {
     font-family: sans-serif;
 }
 
-#auto-shop-panel {
-    width: 250px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-family: sans-serif;
-}
-
 .shop-item {
     margin: 15px 0;
     padding: 10px;
@@ -258,24 +236,7 @@ body {
     border-radius: 10px;
 }
 
-.auto-shop-item {
-    margin: 15px 0;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 10px;
-}
-
 .shop-item button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.auto-shop-item button {
     background-color: #4CAF50;
     color: white;
     border: none;

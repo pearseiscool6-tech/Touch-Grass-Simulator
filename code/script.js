@@ -438,7 +438,7 @@ function buyPetrolMower() {
     if (grassTouched >= petrolMowerCost && mowerMultiplier > 0) {
         showAchievement("Fossil Fuel Freak", `You bought a Petrol-Powered Lawn Mower! It touches 50 grass per second.`)
     }
-    else if (grassTouched >= petrolMowerCost && mowerMultiplier < 0) {
+    else if (grassTouched >= petrolMowerCost && mowerMultiplier == 0) {
         showAchievement("Mow-It-All", "You bought another Lawn Mower! It touches" + 5 * mowerMultiplier + "grass per second.")
     }
     else {

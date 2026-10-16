@@ -16,9 +16,9 @@
     </div>
 </nav>
     <div class="game-wrapper">
-        <div id="auto-shop-panel">
-            <h2>Auto Clicker:</h2>
-            <div class="auto-shop-item">
+        <div id="shop-panel">
+            <h2>Shop</h2>
+            <div class="shop-item">
                 <p><strong id="rabbit-title">Rabbit</strong></p>
                 <p id="rabbit-desc">(+1 per second)</p>
                 <p id="rabbitTxt">Cost: 20 Grass</p>
@@ -31,9 +31,21 @@
                 <p id="petrolMower-desc">(+50 per second)</p>
                 <p id="petrolMowerTxt">Cost: 250 Grass</p>
                 <button onclick="buyPetrolMower();">Buy</button>
-            </div> 
+                <p><strong>Garden Shears</strong></p>
+                <p>(+1 per click)</p>
+                <p id="shearsTxt">Cost: 20 Grass</p>
+                <button onclick="buyShears();">Buy</button>
+                <p><strong>Garden Scythe</strong></p>
+                <p>(+5 per click)</p>
+                <p id="scytheTxt">Cost: 50 Grass</p>
+                <button onclick="buyScythe();">Buy</button>
+                <p><strong>Push Mower</strong></p>
+                <p>(+10 per click)</p>
+                <p id="pushMowerTxt">Cost: 100 Grass</p>
+                <button onclick="buyPushmower();">Buy</button>
+            </div>
+        </div>
         </div> 
-        <div id="spacer1"><pre>                                                             </pre></div>
         <div class="stuff">
     <h1 id="main-title">Touch Grass Simulator</h1>
     <p id="counter">Grass Touched: 0</p>
@@ -80,23 +92,6 @@
     </div>
 </div>
         <div id="spacer2"><pre>                                                             </pre></div>
-        <div id="shop-panel">
-            <h2>Click Buffs:</h2>
-            <div class="shop-item">
-                <p><strong>Garden Shears</strong></p>
-                <p>(+1 per click)</p>
-                <p id="shearsTxt">Cost: 20 Grass</p>
-                <button onclick="buyShears();">Buy</button>
-                <p><strong>Garden Scythe</strong></p>
-                <p>(+5 per click)</p>
-                <p id="scytheTxt">Cost: 50 Grass</p>
-                <button onclick="buyScythe();">Buy</button>
-                <p><strong>Push Mower</strong></p>
-                <p>(+10 per click)</p>
-                <p id="pushMowerTxt">Cost: 100 Grass</p>
-                <button onclick="buyPushmower();">Buy</button>
-            </div>
-        </div>
     </div> 
             <div id="achievement-popup" class="popup-hidden">
     <div class="achievement-content">
